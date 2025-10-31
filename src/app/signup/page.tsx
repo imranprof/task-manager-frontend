@@ -56,7 +56,7 @@ export default function LoginPage() {
           className="w-full mt-6 bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-blue-700 transition"
           onClick={handleSignup}
         >
-          Login
+          SignUp
         </button>
 
         <p className="mt-4 text-center text-gray-500 text-sm">
