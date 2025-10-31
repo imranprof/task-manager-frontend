@@ -103,13 +103,13 @@ export default function DashboardPage() {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border p-3 flex-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border text-black placeholder-gray-400 p-3 flex-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="border p-3 flex-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border text-black placeholder-gray-400 p-3 flex-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={handleCreate}
@@ -131,12 +131,12 @@ export default function DashboardPage() {
                   <input
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    className="border p-2 mb-1 w-full rounded"
+                    className="border p-2 mb-1 w-full rounded text-black placeholder-gray-400"
                   />
                   <input
                     value={editDescription}
                     onChange={(e) => setEditDescription(e.target.value)}
-                    className="border p-2 w-full rounded"
+                    className="border p-2 w-full rounded text-black placeholder-gray-400"
                   />
                 </>
               ) : (
