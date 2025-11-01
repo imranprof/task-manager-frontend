@@ -95,7 +95,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
+    <div className="p-4 max-w-2xl mx-auto min-h-screen">
       <h1 className="text-2xl font-bold mb-6 text-center">Tasks Dashboard</h1>
 
       <div className="mb-6 flex gap-2">
