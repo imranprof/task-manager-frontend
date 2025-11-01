@@ -96,7 +96,7 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4 max-w-2xl mx-auto min-h-screen">
-      <h1 className="text-2xl font-bold mb-6 text-center">Tasks Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center text-black">Tasks Dashboard</h1>
 
       <div className="mb-6 flex gap-2">
         <input
@@ -141,7 +141,7 @@ export default function DashboardPage() {
                 </>
               ) : (
                 <>
-                  <h2 className="font-bold text-lg">{task.title}</h2>
+                  <h2 className="font-bold text-lg text-black">{task.title}</h2>
                   <p className="text-gray-700">{task.description}</p>
                   <p className="text-sm text-gray-500 mt-1">{task.status}</p>
                 </>
