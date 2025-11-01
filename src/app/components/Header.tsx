@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <header className="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
       <h1 className="text-xl font-bold">
-        <Link href="/dashboard">Task Manager</Link>
+        <Link href="/">Task Manager</Link>
       </h1>
 
       {mounted && (
