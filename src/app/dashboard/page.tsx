@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 import { useTaskStore } from '../../store/useStore';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Task {
   id: number;
@@ -19,6 +20,7 @@ export default function DashboardPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchTasks();
@@ -30,8 +32,11 @@ export default function DashboardPage() {
       setTasks(res.data);
     } catch (err) {
       console.error('Failed to fetch tasks', err);
+    } finally {
+      setLoading(false);
     }
   };
+
 
   const handleCreate = async () => {
     if (!title || !description) return;
@@ -120,75 +125,87 @@ export default function DashboardPage() {
       </div>
 
       <ul>
-        {tasks.map((task) => (
-          <li
-            key={task.id}
-            className="border p-4 mb-3 rounded-lg flex justify-between items-center shadow-sm"
-          >
-            <div className="flex-1">
-              {editingId === task.id ? (
-                <>
-                  <input
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    className="border p-2 mb-1 w-full rounded text-black placeholder-gray-400"
-                  />
-                  <input
-                    value={editDescription}
-                    onChange={(e) => setEditDescription(e.target.value)}
-                    className="border p-2 w-full rounded text-black placeholder-gray-400"
-                  />
-                </>
-              ) : (
-                <>
-                  <h2 className="font-bold text-lg text-black">{task.title}</h2>
-                  <p className="text-gray-700">{task.description}</p>
-                  <p className="text-sm text-gray-500 mt-1">{task.status}</p>
-                </>
-              )}
-            </div>
+        {loading
+          ?
+          Array.from({ length: 4 }).map((_, i) => (
+            <li
+              key={i}
+              className="border p-4 mb-3 rounded-lg flex flex-col gap-2 shadow-sm"
+            >
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-3 w-1/2" />
+            </li>
+          ))
+          : tasks.map((task) => (
+            <li
+              key={task.id}
+              className="border p-4 mb-3 rounded-lg flex justify-between items-center shadow-sm"
+            >
+              <div className="flex-1">
+                {editingId === task.id ? (
+                  <>
+                    <input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      className="border p-2 mb-1 w-full rounded text-black placeholder-gray-400"
+                    />
+                    <input
+                      value={editDescription}
+                      onChange={(e) => setEditDescription(e.target.value)}
+                      className="border p-2 w-full rounded text-black placeholder-gray-400"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <h2 className="font-bold text-lg text-black">{task.title}</h2>
+                    <p className="text-gray-700">{task.description}</p>
+                    <p className="text-sm text-gray-500 mt-1">{task.status}</p>
+                  </>
+                )}
+              </div>
 
-            <div className="flex gap-2">
-              {editingId === task.id ? (
-                <>
-                  <button
-                    onClick={() => handleEditSave(task.id)}
-                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={handleCancelEdit}
-                    className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500 transition"
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => startEditing(task)}
-                    className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleToggleStatus(task)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
-                  >
-                    Toggle Status
-                  </button>
-                  <button
-                    onClick={() => handleDelete(task.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                  >
-                    Delete
-                  </button>
-                </>
-              )}
-            </div>
-          </li>
-        ))}
+              <div className="flex gap-2">
+                {editingId === task.id ? (
+                  <>
+                    <button
+                      onClick={() => handleEditSave(task.id)}
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={handleCancelEdit}
+                      className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500 transition"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => startEditing(task)}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleToggleStatus(task)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                    >
+                      Toggle Status
+                    </button>
+                    <button
+                      onClick={() => handleDelete(task.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </div>
+            </li>
+          ))}
       </ul>
     </div>
   );
