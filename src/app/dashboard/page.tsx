@@ -21,6 +21,7 @@ export default function DashboardPage() {
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     fetchTasks();
@@ -40,7 +41,7 @@ export default function DashboardPage() {
 
   const handleCreate = async () => {
     if (!title || !description) return;
-
+    setCreating(true);
     try {
       const res = await axios.post<Task>('/tasks', { title, description });
       addTask(res.data);
@@ -48,6 +49,8 @@ export default function DashboardPage() {
       setDescription('');
     } catch (err) {
       console.error('Failed to create task', err);
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -118,9 +121,11 @@ export default function DashboardPage() {
         />
         <button
           onClick={handleCreate}
-          className="bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 transition"
+          disabled={creating}
+          className={`bg-green-500 text-white px-4 py-3 rounded-lg transition ${creating ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-green-600'
+            }`}
         >
-          Add Task
+          {creating ? 'Adding...' : 'Add Task'}
         </button>
       </div>
 
