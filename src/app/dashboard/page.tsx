@@ -38,7 +38,6 @@ export default function DashboardPage() {
     }
   };
 
-
   const handleCreate = async () => {
     if (!title || !description) return;
     setCreating(true);
@@ -104,25 +103,25 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4 max-w-2xl mx-auto min-h-screen">
-      <h1 className="text-2xl font-bold mb-6 text-center text-black">Tasks Dashboard</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-black">Tasks Dashboard</h1>
 
-      <div className="mb-6 flex gap-2">
+      <div className="mb-6 flex flex-col sm:flex-row gap-2">
         <input
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border text-black placeholder-gray-400 p-3 flex-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border text-black placeholder-gray-400 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1"
         />
         <input
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="border text-black placeholder-gray-400 p-3 flex-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border text-black placeholder-gray-400 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1"
         />
         <button
           onClick={handleCreate}
           disabled={creating}
-          className={`bg-green-500 text-white px-4 py-3 rounded-lg transition ${creating ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-green-600'
+          className={`mt-2 sm:mt-0 bg-green-500 text-white px-4 py-3 rounded-lg transition ${creating ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-green-600'
             }`}
         >
           {creating ? 'Adding...' : 'Add Task'}
@@ -131,8 +130,7 @@ export default function DashboardPage() {
 
       <ul>
         {loading
-          ?
-          Array.from({ length: 4 }).map((_, i) => (
+          ? Array.from({ length: 4 }).map((_, i) => (
             <li
               key={i}
               className="border p-4 mb-3 rounded-lg flex flex-col gap-2 shadow-sm"
@@ -145,9 +143,9 @@ export default function DashboardPage() {
           : tasks.map((task) => (
             <li
               key={task.id}
-              className="border p-4 mb-3 rounded-lg flex justify-between items-center shadow-sm"
+              className="border p-4 mb-3 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-sm"
             >
-              <div className="flex-1">
+              <div className="flex-1 w-full sm:mr-4">
                 {editingId === task.id ? (
                   <>
                     <input
@@ -163,14 +161,14 @@ export default function DashboardPage() {
                   </>
                 ) : (
                   <>
-                    <h2 className="font-bold text-lg text-black">{task.title}</h2>
+                    <h2 className="font-bold text-lg sm:text-xl text-black">{task.title}</h2>
                     <p className="text-gray-700">{task.description}</p>
                     <p className="text-sm text-gray-500 mt-1">{task.status}</p>
                   </>
                 )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
                 {editingId === task.id ? (
                   <>
                     <button
