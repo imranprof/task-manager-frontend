@@ -44,7 +44,6 @@ export default function LoginPage() {
       setToken(res.data.access_token);
       router.push('/dashboard');
     } catch (err) {
-      console.error(err);
       setServerError('Invalid email or password');
     }
   };
