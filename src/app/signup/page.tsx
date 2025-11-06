@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuthStore } from '../../store/useStore';
 import axios from '../../api/axios';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,20 +28,21 @@ const schema = z.object({
 type SignupFormData = z.infer<typeof schema>;
 
 export default function SignupPage() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignupFormData>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<SignupFormData>({
     resolver: zodResolver(schema),
   });
 
-  const setToken = useAuthStore((state) => state.setToken);
-  const router = useRouter();
+  // const setToken = useAuthStore((state) => state.setToken);
   const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const onSubmit = async (data: SignupFormData) => {
     setServerError('');
+    setSuccessMessage('');
     try {
       const res = await axios.post('/auth/signup', data);
-      setToken(res.data.access_token);
-      router.push('/dashboard');
+      setSuccessMessage('Signup successful! You can now login with your email and password.');
+      reset();
     } catch (err) {
       setServerError('Signup failed. Please check your details.');
     }
@@ -76,6 +76,7 @@ export default function SignupPage() {
             />
             {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
           </div>
+
           <div>
             <input
               {...register('password')}
@@ -88,6 +89,7 @@ export default function SignupPage() {
           </div>
 
           {serverError && <p className="text-red-500 text-sm text-center mt-2">{serverError}</p>}
+          {successMessage && <p className="text-green-500 text-sm text-center mt-2">{successMessage}</p>}
         </div>
 
         <button
